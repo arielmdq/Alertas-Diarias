@@ -1,0 +1,53 @@
+name: BuscaOlas alerta
+
+on:
+  schedule:
+    # GitHub usa hora UTC. Argentina = UTC-3.
+    - cron: "0 23 * * *" # 20:00 ART -> chequea MAÑANA
+    - cron: "0 10 * * *" # 07:00 ART -> chequea HOY (por si el pronóstico mejoró)
+  workflow_dispatch:
+    inputs:
+      offset:
+        description: "Día a chequear: 0 = hoy, 1 = mañana, 2-4 = más adelante"
+        default: "1"
+      siempre:
+        description: "1 = mandar mensaje aunque no haya ventanas (para probar Telegram)"
+        default: "1"
+      incluir_regulares:
+        description: "1 = avisar también ventanas amarillas (regulares)"
+        default: "0"
+
+jobs:
+  alerta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Definir qué día chequear
+        env:
+          EVENTO: ${{ github.event_name }}
+          CRON: ${{ github.event.schedule }}
+          IN_OFFSET: ${{ inputs.offset }}
+          IN_SIEMPRE: ${{ inputs.siempre }}
+          IN_REGULARES: ${{ inputs.incluir_regulares }}
+        run: |
+          if [ "$EVENTO" = "workflow_dispatch" ]; then
+            echo "OFFSET=${IN_OFFSET:-1}" >> "$GITHUB_ENV"
+            echo "SIEMPRE=${IN_SIEMPRE:-0}" >> "$GITHUB_ENV"
+            echo "INCLUIR_REGULARES=${IN_REGULARES:-0}" >> "$GITHUB_ENV"
+          elif [ "$CRON" = "0 10 * * *" ]; then
+            echo "OFFSET=0" >> "$GITHUB_ENV"
+          else
+            echo "OFFSET=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Chequear ventanas y avisar por Telegram
+        env:
+          OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node alerta/alerta.mjs
