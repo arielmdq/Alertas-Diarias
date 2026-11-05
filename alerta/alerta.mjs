@@ -1,6 +1,13 @@
-// BuscaOlas - alerta por Telegram cuando hay ventanas buenas para surfear.
+// BuscaOlas - alerta por Telegram con TODAS las ventanas buenas de los próximos días.
 // Usa la misma lógica que script.js de la app (viento, energía y ventanas).
 // Requiere Node 18+ (fetch incluido). No necesita dependencias.
+//
+// Variables opcionales (se pasan como variables de entorno):
+//   OFFSET             primer día a revisar: 0 = hoy, 1 = mañana (lo define el workflow)
+//   HASTA              último día a revisar, contando desde hoy (por defecto 4)
+//   INCLUIR_REGULARES  1 = incluir también ventanas amarillas
+//   SIEMPRE            1 = mandar mensaje aunque no haya ventanas (para pruebas)
+//   DRY_RUN            1 = mostrar el mensaje en pantalla sin mandarlo a Telegram
 
 const CONFIG = {
   lat: -38.0055,
@@ -10,20 +17,27 @@ const CONFIG = {
 
 const ART_OFFSET_H = 3; // Argentina = UTC-3 todo el año (sin horario de verano)
 const APP_URL = "https://buscaolas.netlify.app/";
+const MAX_VIENTO_DIFF_MS = 3 * 3600 * 1000; // OpenWeather da datos cada 3 hs y llega a ~5 días
 
 const { OPENWEATHER_KEY, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID } = process.env;
-const OFFSET = Number(process.env.OFFSET || 1); // 0 = hoy, 1 = mañana
-const SIEMPRE = process.env.SIEMPRE === "1"; // 1 = mandar mensaje aunque no haya ventanas (para pruebas)
-const INCLUIR_REGULARES = process.env.INCLUIR_REGULARES === "1"; // 1 = avisar también ventanas amarillas
+const DRY_RUN = process.env.DRY_RUN === "1";
+const DESDE = Number(process.env.OFFSET || 1);
+const HASTA = Number(process.env.HASTA || 4);
+const SIEMPRE = process.env.SIEMPRE === "1";
+const INCLUIR_REGULARES = process.env.INCLUIR_REGULARES === "1";
 
-for (const [k, v] of Object.entries({ OPENWEATHER_KEY, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID })) {
+const requeridas = DRY_RUN
+  ? { OPENWEATHER_KEY }
+  : { OPENWEATHER_KEY, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID };
+
+for (const [k, v] of Object.entries(requeridas)) {
   if (!v) {
     console.error(`Falta la variable de entorno ${k}`);
     process.exit(1);
   }
 }
-if (!Number.isInteger(OFFSET) || OFFSET < 0 || OFFSET > 4) {
-  console.error("OFFSET debe ser un entero entre 0 y 4");
+if (!Number.isInteger(DESDE) || !Number.isInteger(HASTA) || DESDE < 0 || HASTA > 6 || DESDE > HASTA) {
+  console.error("OFFSET y HASTA deben ser enteros entre 0 y 6, con OFFSET <= HASTA");
   process.exit(1);
 }
 
@@ -66,37 +80,44 @@ async function getJSON(url, nombre) {
 }
 
 /***********************
- * FECHA OBJETIVO (en hora argentina)
+ * FECHAS (en hora argentina)
  ***********************/
 const ahoraART = new Date(Date.now() - ART_OFFSET_H * 3600 * 1000);
 const horaActual = ahoraART.getUTCHours();
-const dia = new Date(
-  Date.UTC(ahoraART.getUTCFullYear(), ahoraART.getUTCMonth(), ahoraART.getUTCDate() + OFFSET)
-);
-const Y = dia.getUTCFullYear();
-const M = dia.getUTCMonth();
-const D = dia.getUTCDate();
-const fechaISO = `${Y}-${pad(M + 1)}-${pad(D)}`;
+const Y0 = ahoraART.getUTCFullYear();
+const M0 = ahoraART.getUTCMonth();
+const D0 = ahoraART.getUTCDate();
+
+const diaDe = (offset) => new Date(Date.UTC(Y0, M0, D0 + offset));
 
 /***********************
- * DATOS -> FILAS HORARIAS (5 a 19 hs)
+ * DATOS
  ***********************/
-async function obtenerFilas() {
-  const urlOlas =
-    `https://marine-api.open-meteo.com/v1/marine?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}` +
-    `&hourly=wave_height,wave_period,wave_direction&timezone=${encodeURIComponent(CONFIG.timezone)}`;
+const urlOlas =
+  `https://marine-api.open-meteo.com/v1/marine?latitude=${CONFIG.lat}&longitude=${CONFIG.lon}` +
+  `&hourly=wave_height,wave_period,wave_direction&timezone=${encodeURIComponent(CONFIG.timezone)}`;
 
-  const urlViento =
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${CONFIG.lat}&lon=${CONFIG.lon}` +
-    `&units=metric&appid=${OPENWEATHER_KEY}`;
+const urlViento =
+  `https://api.openweathermap.org/data/2.5/forecast?lat=${CONFIG.lat}&lon=${CONFIG.lon}` +
+  `&units=metric&appid=${OPENWEATHER_KEY}`;
 
-  const [olas, viento] = await Promise.all([
-    getJSON(urlOlas, "Open-Meteo Marine"),
-    getJSON(urlViento, "OpenWeather"),
-  ]);
+const [olas, viento] = await Promise.all([
+  getJSON(urlOlas, "Open-Meteo Marine"),
+  getJSON(urlViento, "OpenWeather"),
+]);
+
+/***********************
+ * FILAS HORARIAS DE UN DÍA (5 a 19 hs)
+ ***********************/
+function filasDelDia(offset) {
+  const dia = diaDe(offset);
+  const Y = dia.getUTCFullYear();
+  const M = dia.getUTCMonth();
+  const D = dia.getUTCDate();
+  const fechaISO = `${Y}-${pad(M + 1)}-${pad(D)}`;
 
   const horas = Array.from({ length: 15 }, (_, i) => i + 5).filter(
-    (h) => OFFSET !== 0 || h > horaActual
+    (h) => offset !== 0 || h > horaActual
   );
 
   return horas
@@ -120,6 +141,9 @@ async function obtenerFilas() {
         },
         { diff: Infinity, vel: 0, dir: "-" }
       );
+
+      // Sin pronóstico de viento para esa hora (más allá de ~5 días): no se evalúa
+      if (vientoCercano.diff > MAX_VIENTO_DIFF_MS) return null;
 
       const energia = Math.round(altura * altura * periodo * 10);
 
@@ -188,7 +212,14 @@ function resumirVentana(v) {
 /***********************
  * TELEGRAM
  ***********************/
-async function enviarTelegram(texto) {
+async function enviar(texto) {
+  if (DRY_RUN) {
+    console.log("----- (DRY_RUN) mensaje que se enviaría -----");
+    console.log(texto);
+    console.log("---------------------------------------------");
+    return;
+  }
+
   const r = await fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -206,47 +237,70 @@ async function enviarTelegram(texto) {
 /***********************
  * MAIN
  ***********************/
-const filas = await obtenerFilas();
-let ventanas = construirVentanas(filas).map(resumirVentana);
+const mayus = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
-if (!INCLUIR_REGULARES) ventanas = ventanas.filter((v) => v.color === "verde");
+function tituloDia(offset) {
+  const fecha = mayus(
+    diaDe(offset).toLocaleDateString("es-AR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      timeZone: "UTC",
+    })
+  );
+  if (offset === 0) return `Hoy · ${fecha}`;
+  if (offset === 1) return `Mañana · ${fecha}`;
+  return fecha;
+}
 
-const etiquetaDia =
-  OFFSET === 0
-    ? "Hoy"
-    : OFFSET === 1
-    ? "Mañana"
-    : dia.toLocaleDateString("es-AR", { weekday: "long", timeZone: "UTC" });
+const dias = [];
+for (let off = DESDE; off <= HASTA; off++) {
+  let ventanas = construirVentanas(filasDelDia(off)).map(resumirVentana);
+  if (!INCLUIR_REGULARES) ventanas = ventanas.filter((v) => v.color === "verde");
+  if (ventanas.length) dias.push({ off, ventanas });
+}
 
-const fechaTxt = dia.toLocaleDateString("es-AR", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  timeZone: "UTC",
-});
+const total = dias.reduce((a, d) => a + d.ventanas.length, 0);
+console.log(`Chequeo días ${DESDE} a ${HASTA}: ${dias.length} días con ventanas, ${total} ventanas en total`);
 
-console.log(`Chequeo para ${fechaISO} (offset ${OFFSET}): ${filas.length} horas, ${ventanas.length} ventanas`);
-
-if (!ventanas.length) {
+if (!total) {
   if (SIEMPRE) {
-    await enviarTelegram(`🌊 ${etiquetaDia} (${fechaTxt}): sin ventanas buenas.\n${APP_URL}`);
+    const n = HASTA - DESDE + 1;
+    await enviar(`🌊 Sin ventanas buenas en ${n === 1 ? "el día revisado" : `los próximos ${n} días`}.\n${APP_URL}`);
     console.log("Enviado mensaje de prueba (sin ventanas).");
   }
   process.exit(0);
 }
 
-const lineas = ventanas.map((v) => {
-  const icono = v.color === "verde" ? "🟢" : "🟡";
-  return (
-    `${icono} ${v.rango} · viento ${v.vientoDir} ${v.vientoVel} km/h\n` +
-    `    swell ${v.swellDir} ${v.altura} m · ${v.periodo} s · energía ${v.energia} (${v.energiaTxt})`
-  );
+const bloques = dias.map(({ off, ventanas }) => {
+  const lineas = ventanas.map((v) => {
+    const icono = v.color === "verde" ? "🟢" : "🟡";
+    return (
+      `${icono} ${v.rango} · viento ${v.vientoDir} ${v.vientoVel} km/h\n` +
+      `    swell ${v.swellDir} ${v.altura} m · ${v.periodo} s · energía ${v.energia} (${v.energiaTxt})`
+    );
+  });
+  return `📅 ${tituloDia(off)}\n${lineas.join("\n")}`;
 });
 
-const titulo =
-  ventanas.length === 1
-    ? `🌊 ${etiquetaDia} hay ventana para surfear`
-    : `🌊 ${etiquetaDia} hay ${ventanas.length} ventanas para surfear`;
+const encabezado =
+  total === 1
+    ? "🌊 Hay 1 ventana para surfear"
+    : `🌊 Hay ${total} ventanas para surfear en ${dias.length === 1 ? "1 día" : `${dias.length} días`}`;
 
-await enviarTelegram(`${titulo}\n${fechaTxt}\n\n${lineas.join("\n\n")}\n\n${APP_URL}`);
-console.log("Alerta enviada por Telegram.");
+// Telegram acepta hasta 4096 caracteres por mensaje: si hace falta, se parte por día.
+const LIMITE = 3800;
+const mensajes = [];
+let actual = encabezado;
+for (const b of bloques) {
+  if ((actual + "\n\n" + b).length > LIMITE) {
+    mensajes.push(actual);
+    actual = b;
+  } else {
+    actual += "\n\n" + b;
+  }
+}
+mensajes.push(actual + `\n\n${APP_URL}`);
+
+for (const m of mensajes) await enviar(m);
+console.log(`Alerta enviada (${mensajes.length} mensaje${mensajes.length === 1 ? "" : "s"}).`);
