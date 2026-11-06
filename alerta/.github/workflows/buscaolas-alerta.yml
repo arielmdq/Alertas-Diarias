@@ -1,24 +1,35 @@
-name: BuscaOlas alerta
+name: Alertas (olas y precios)
 
 on:
   schedule:
-    # GitHub usa hora UTC. Argentina = UTC-3.
-    - cron: "0 23 * * *" # 20:00 ART -> chequea MAÑANA
-    - cron: "0 10 * * *" # 07:00 ART -> chequea HOY (por si el pronóstico mejoró)
+    # ─── HORARIOS DE LOS CHEQUEOS ───────────────────────────────────────
+    # GitHub usa hora UTC. Argentina = UTC-3, o sea: hora argentina + 3 = hora UTC.
+    # Formato: "minuto hora * * *". Uso el minuto 7 (y no el 0) porque GitHub se
+    # satura justo a la hora en punto y atrasa los chequeos.
+    # Para cambiar un horario, cambiá el segundo número. Para sumar uno, copiá una línea.
+    - cron: "7 9 * * *"    # 06:07 hs argentina
+    - cron: "7 13 * * *"   # 10:07
+    - cron: "7 16 * * *"   # 13:07
+    - cron: "7 20 * * *"   # 17:07
+    - cron: "7 23 * * *"   # 20:07
   workflow_dispatch:
     inputs:
-      offset:
-        description: "Día a chequear: 0 = hoy, 1 = mañana, 2-4 = más adelante"
-        default: "1"
       siempre:
-        description: "1 = mandar mensaje aunque no haya ventanas (para probar Telegram)"
+        description: "1 = mandar mensajes aunque no haya novedades (para probar). 0 = comportamiento normal"
         default: "1"
-      incluir_regulares:
-        description: "1 = avisar también ventanas amarillas (regulares)"
-        default: "0"
+
+# Necesario para que el workflow pueda guardar alerta/estado.json en el repo
+# (así recuerda qué ya te avisó y no te repite los mensajes).
+permissions:
+  contents: write
+
+# Evita que dos chequeos corran al mismo tiempo y se pisen el estado
+concurrency:
+  group: alertas
+  cancel-in-progress: false
 
 jobs:
-  alerta:
+  alertas:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,27 +38,22 @@ jobs:
         with:
           node-version: 20
 
-      - name: Definir qué día chequear
-        env:
-          EVENTO: ${{ github.event_name }}
-          CRON: ${{ github.event.schedule }}
-          IN_OFFSET: ${{ inputs.offset }}
-          IN_SIEMPRE: ${{ inputs.siempre }}
-          IN_REGULARES: ${{ inputs.incluir_regulares }}
-        run: |
-          if [ "$EVENTO" = "workflow_dispatch" ]; then
-            echo "OFFSET=${IN_OFFSET:-1}" >> "$GITHUB_ENV"
-            echo "SIEMPRE=${IN_SIEMPRE:-0}" >> "$GITHUB_ENV"
-            echo "INCLUIR_REGULARES=${IN_REGULARES:-0}" >> "$GITHUB_ENV"
-          elif [ "$CRON" = "0 10 * * *" ]; then
-            echo "OFFSET=0" >> "$GITHUB_ENV"
-          else
-            echo "OFFSET=1" >> "$GITHUB_ENV"
-          fi
-
-      - name: Chequear ventanas y avisar por Telegram
+      - name: Chequear olas, viento y precios
         env:
           OPENWEATHER_KEY: ${{ secrets.OPENWEATHER_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SIEMPRE: ${{ inputs.siempre }}
         run: node alerta/alerta.mjs
+
+      # Guarda el estado aunque el paso anterior haya fallado en una de las dos partes
+      - name: Guardar estado
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain alerta/estado.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add alerta/estado.json
+            git commit -m "Actualizar estado de alertas"
+            git push
+          fi
