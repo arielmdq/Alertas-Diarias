@@ -1,0 +1,57 @@
+{
+  "olas": {
+    "items": [
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-08",
+        "desde": 5,
+        "hasta": 7
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-08",
+        "desde": 5,
+        "hasta": 13
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-09",
+        "desde": 5,
+        "hasta": 16
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-10",
+        "desde": 5,
+        "hasta": 19
+      }
+    ]
+  },
+  "precios": {
+    "BTC": {
+      "fecha": "2026-11-06",
+      "subio": 0,
+      "bajo": 0
+    },
+    "ETH": {
+      "fecha": "2026-11-06",
+      "subio": 0,
+      "bajo": 0
+    },
+    "SPY": {
+      "fecha": "2026-11-06",
+      "subio": 0,
+      "bajo": 0
+    },
+    "GLD": {
+      "fecha": "2026-11-06",
+      "subio": 0,
+      "bajo": 0
+    },
+    "YPFD": {
+      "fecha": "2026-11-06",
+      "subio": 0,
+      "bajo": 0
+    }
+  }
+}
