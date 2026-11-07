@@ -21,6 +21,12 @@
       },
       {
         "tipo": "viento",
+        "fecha": "2026-11-09",
+        "desde": 5,
+        "hasta": 19
+      },
+      {
+        "tipo": "viento",
         "fecha": "2026-11-10",
         "desde": 5,
         "hasta": 19
