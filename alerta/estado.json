@@ -5,7 +5,7 @@
         "tipo": "verde",
         "fecha": "2026-11-08",
         "desde": 5,
-        "hasta": 7
+        "hasta": 8
       },
       {
         "tipo": "viento",
@@ -18,6 +18,12 @@
         "fecha": "2026-11-09",
         "desde": 5,
         "hasta": 16
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-09",
+        "desde": 17,
+        "hasta": 19
       },
       {
         "tipo": "viento",
