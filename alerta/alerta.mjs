@@ -47,7 +47,6 @@ if (!Number.isInteger(O.diasAdelante) || O.diasAdelante < 0 || O.diasAdelante > 
  * UTILIDADES
  ***********************/
 const pad = (n) => String(n).padStart(2, "0");
-const mayus = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 async function getJSON(url, nombre, opciones = {}) {
   const r = await fetch(url, opciones);
@@ -70,20 +69,21 @@ async function enviar(texto) {
   if (!r.ok) throw new Error(`Telegram respondió ${r.status}: ${await r.text()}`);
 }
 
-// Telegram acepta hasta 4096 caracteres por mensaje: si hace falta, se parte por bloques.
-async function enviarEnPartes(encabezado, bloques, pie) {
+// Manda una línea por renglón. Telegram acepta hasta 4096 caracteres por mensaje:
+// si hace falta, se parte en varios mensajes.
+async function enviarLineas(lineas) {
   const LIMITE = 3800;
   const mensajes = [];
-  let actual = encabezado;
-  for (const b of bloques) {
-    if ((actual + "\n\n" + b).length > LIMITE) {
+  let actual = "";
+  for (const l of lineas) {
+    if (actual && (actual + "\n" + l).length > LIMITE) {
       mensajes.push(actual);
-      actual = b;
+      actual = l;
     } else {
-      actual += "\n\n" + b;
+      actual = actual ? actual + "\n" + l : l;
     }
   }
-  mensajes.push(actual + (pie ? `\n\n${pie}` : ""));
+  if (actual) mensajes.push(actual);
   for (const m of mensajes) await enviar(m);
   return mensajes.length;
 }
@@ -108,15 +108,6 @@ const D0 = ahoraART.getUTCDate();
 const diaDe = (offset) => new Date(Date.UTC(Y0, M0, D0 + offset));
 const isoDe = (d) => `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}`;
 const fechaHoyART = isoDe(ahoraART);
-
-function tituloDia(offset) {
-  const fecha = mayus(
-    diaDe(offset).toLocaleDateString("es-AR", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" })
-  );
-  if (offset === 0) return `Hoy · ${fecha}`;
-  if (offset === 1) return `Mañana · ${fecha}`;
-  return fecha;
-}
 
 /***********************
  * OLAS Y VIENTO (misma lógica que script.js de la app)
@@ -263,14 +254,36 @@ function rangoNum(min, max, dec = 0) {
   return a === b ? a : `${a}–${b}`;
 }
 
-function lineaItem(it) {
-  const icono = it.tipo === "verde" ? "🟢" : "🌬️";
-  const nuevo = it.nuevo ? "🆕 " : "";
-  return (
-    `${nuevo}${icono} ${it.desde}–${it.hasta}h · viento ${it.dirs.join("/")} ${rangoNum(it.velMin, it.velMax)} km/h\n` +
-    `    swell ${it.swellDir} ${rangoNum(it.alturaMin, it.alturaMax, 1)} m · ${it.periodo.toFixed(1)} s · ` +
-    `energía ${rangoNum(it.energiaMin, it.energiaMax)} (${clasificarEnergia(it.energiaProm)})`
-  );
+const DIAS_SEMANA = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+// Plantillas de los mensajes (se cambian en config.mjs; estos son los valores por defecto)
+const MSG = {
+  ventana: "{dia} {fecha} 🟢 {horas}h energía {energia} ({clase})",
+  viento: "{dia} {fecha} viento bueno {horas}h · {viento} {vel} km/h",
+  marcaNuevo: "🆕 ",
+  ...(O.mensajes ?? {}),
+};
+
+// Una línea por ventana / tramo, armada con la plantilla correspondiente
+function lineaItem(it, marcar) {
+  const [y, m, d] = it.fecha.split("-").map(Number);
+  const valores = {
+    dia: DIAS_SEMANA[new Date(Date.UTC(y, m - 1, d)).getUTCDay()],
+    fecha: `${d}/${m}`,
+    horas: it.desde === it.hasta ? `${it.desde}` : `${it.desde}–${it.hasta}`,
+    desde: it.desde,
+    hasta: it.hasta,
+    energia: rangoNum(it.energiaMin, it.energiaMax),
+    clase: clasificarEnergia(it.energiaProm),
+    viento: it.dirs.join("/"),
+    vel: rangoNum(it.velMin, it.velMax),
+    swell: it.swellDir,
+    altura: rangoNum(it.alturaMin, it.alturaMax, 1),
+    periodo: it.periodo.toFixed(1),
+  };
+  const plantilla = it.tipo === "verde" ? MSG.ventana : MSG.viento;
+  const linea = plantilla.replace(/\{(\w+)\}/g, (txt, k) => (k in valores ? valores[k] : txt));
+  return (marcar && it.nuevo ? MSG.marcaNuevo : "") + linea;
 }
 
 async function seccionOlas(estado, nuevo) {
@@ -309,18 +322,13 @@ async function seccionOlas(estado, nuevo) {
 
   if (todos.length) {
     if (SIEMPRE || !O.soloSiHayNovedad || hayNuevos) {
-      const partes = [];
-      if (nV) partes.push(`${nV} ventana${nV === 1 ? "" : "s"} 🟢`);
-      if (nW) partes.push(`${nW} tramo${nW === 1 ? "" : "s"} de viento bueno 🌬️`);
-      const encabezado = `${hayNuevos ? "🌊 Novedades para surfear" : "🌊 Resumen para surfear"}\n${partes.join(" · ")}`;
-
-      const bloques = dias.map((d) => `📅 ${tituloDia(d.off)}\n${d.items.map(lineaItem).join("\n")}`);
-
-      const leyenda = [];
-      if (nV) leyenda.push("🟢 viento bueno y olas con energía");
-      if (nW) leyenda.push("🌬️ viento bueno (olas más débiles)");
-      if (hayNuevos) leyenda.push("🆕 nuevo desde el último aviso");
-      const n = await enviarEnPartes(encabezado, bloques, `${leyenda.join("\n")}\n${APP_URL}`);
+      // Solo se marcan los 🆕 cuando el mensaje mezcla cosas nuevas con otras que ya te habían avisado
+      const marcar = hayNuevos && todos.some((it) => !it.nuevo);
+      const ordenados = [...todos].sort(
+        (a, b) =>
+          a.fecha.localeCompare(b.fecha) || a.desde - b.desde || (a.tipo === b.tipo ? 0 : a.tipo === "verde" ? -1 : 1)
+      );
+      const n = await enviarLineas(ordenados.map((it) => lineaItem(it, marcar)));
       console.log(`Olas: alerta enviada (${n} mensaje${n === 1 ? "" : "s"}).`);
     }
   } else if (SIEMPRE) {
@@ -371,11 +379,22 @@ async function preciosCoingecko(activos) {
 
 async function precioYahoo(a) {
   try {
-    const j = await getJSON(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(a.id)}?range=5d&interval=1d`,
-      "Yahoo",
-      UA
-    );
+    // Yahoo tiene dos servidores equivalentes: si falla el primero, prueba con el segundo
+    let j;
+    let ultimoError;
+    for (const host of ["query1", "query2"]) {
+      try {
+        j = await getJSON(
+          `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(a.id)}?range=5d&interval=1d`,
+          "Yahoo",
+          UA
+        );
+        break;
+      } catch (e) {
+        ultimoError = e;
+      }
+    }
+    if (!j) throw ultimoError;
     const r = j.chart?.result?.[0];
     if (!r?.timestamp) throw new Error(`Yahoo sin datos para "${a.id}"`);
     const cierres = r.timestamp
@@ -432,12 +451,13 @@ async function seccionPrecios(estado, nuevo) {
   const porNombre = new Map(resultados.map((r) => [r.activo.nombre, r]));
 
   const alertas = [];
+  const fallidos = [];
   const niveles = {};
   for (const a of P.activos) {
     const r = porNombre.get(a.nombre);
     if (r.error) {
-      console.error(`Precios: ${a.nombre}: ${r.error}`);
-      huboErrores = true;
+      console.log(`::warning title=Precios::${a.nombre}: ${r.error}`);
+      fallidos.push(r);
       continue;
     }
     const { alertar, st } = evaluarNivel(estado.precios?.[a.nombre], r.fecha, r.variacion, paso);
@@ -460,6 +480,27 @@ async function seccionPrecios(estado, nuevo) {
   }
 
   nuevo.precios = { ...(estado.precios ?? {}), ...niveles };
+
+  // Un activo que no se pudo leer NO hace fallar el chequeo: te lo aviso por Telegram,
+  // una sola vez por día por activo (así te enterás si un símbolo está mal o una fuente no responde).
+  const avisados = estado.erroresAvisados ?? {};
+  const siguen = {};
+  const porAvisar = [];
+  for (const r of fallidos) {
+    const n = r.activo.nombre;
+    if (avisados[n] === fechaHoyART) siguen[n] = fechaHoyART;
+    else porAvisar.push(r);
+  }
+  if (porAvisar.length) {
+    await enviar(
+      `⚠️ No pude leer ${porAvisar.length === 1 ? "este activo" : "estos activos"}:\n` +
+        `${porAvisar.map((r) => `• ${r.activo.nombre}: ${r.error}`).join("\n")}\n` +
+        `Si el símbolo está mal, corregilo en config.mjs. Te aviso una vez por día.`
+    );
+    porAvisar.forEach((r) => (siguen[r.activo.nombre] = fechaHoyART));
+  }
+  if (Object.keys(siguen).length) nuevo.erroresAvisados = siguen;
+  else delete nuevo.erroresAvisados;
 }
 
 /***********************
