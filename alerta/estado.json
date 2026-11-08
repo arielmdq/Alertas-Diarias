@@ -5,19 +5,13 @@
         "tipo": "verde",
         "fecha": "2026-11-08",
         "desde": 5,
-        "hasta": 8
+        "hasta": 11
       },
       {
         "tipo": "viento",
         "fecha": "2026-11-08",
         "desde": 5,
         "hasta": 13
-      },
-      {
-        "tipo": "viento",
-        "fecha": "2026-11-09",
-        "desde": 5,
-        "hasta": 19
       },
       {
         "tipo": "viento",
@@ -71,5 +65,8 @@
       "subio": 0,
       "bajo": 0
     }
+  },
+  "erroresAvisados": {
+    "VIST": "2026-11-07"
   }
 }
