@@ -43,6 +43,21 @@ export const CONFIG = {
     // false = te escribe en cada chequeo (5 veces por día) con todo lo que haya.
     soloSiHayNovedad: true,
 
+    // FORMATO DE LOS MENSAJES: una línea por ventana 🟢 y una por tramo de viento bueno.
+    // Podés cambiar el texto y mover o borrar los {marcadores}.
+    // Marcadores disponibles:
+    //   {dia}     Dom, Lun, Mar...          {fecha}   8/11
+    //   {horas}   5–7                       {desde} {hasta}   hora de inicio y de fin
+    //   {energia} 73–78                     {clase}   Media, Fuerte...
+    //   {viento}  NO/NNO/N (direcciones)    {vel}     18–23 (en km/h)
+    //   {swell}   SSE (dirección del swell) {altura}  1.2–1.5 (en m)    {periodo}  11.0 (en s)
+    mensajes: {
+      ventana: "{dia} {fecha} 🟢 {horas}h energía {energia} ({clase})",
+      viento: "{dia} {fecha} viento bueno {horas}h · {viento} {vel} km/h",
+      // Marca que se agrega adelante de lo nuevo, solo cuando el mensaje mezcla cosas nuevas y viejas
+      marcaNuevo: "🆕 ",
+    },
+
     // Qué se considera VIENTO BUENO. Es la misma regla que usa la app (script.js).
     // Si algún día la cambiás en la app, cambiala también acá.
     //   direcciones: de dónde sopla
