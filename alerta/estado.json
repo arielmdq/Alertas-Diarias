@@ -3,12 +3,6 @@
     "items": [
       {
         "tipo": "viento",
-        "fecha": "2026-11-09",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "viento",
         "fecha": "2026-11-10",
         "desde": 5,
         "hasta": 19
@@ -29,18 +23,18 @@
         "tipo": "viento",
         "fecha": "2026-11-12",
         "desde": 5,
-        "hasta": 10
+        "hasta": 13
       }
     ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-08",
+      "fecha": "2026-11-09",
       "subio": 0,
       "bajo": 0
     },
     "ETH": {
-      "fecha": "2026-11-08",
+      "fecha": "2026-11-09",
       "subio": 0,
       "bajo": 2
     },
@@ -61,6 +55,6 @@
     }
   },
   "erroresAvisados": {
-    "VIST": "2026-11-08"
+    "VIST": "2026-11-09"
   }
 }
