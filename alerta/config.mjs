@@ -92,8 +92,9 @@ export const CONFIG = {
       { nombre: "ETH", fuente: "coingecko", id: "ethereum", moneda: "USD" },
       { nombre: "SPY", fuente: "yahoo", id: "SPY.BA", moneda: "ARS" },
       { nombre: "GLD", fuente: "yahoo", id: "GLD.BA", moneda: "ARS" },
-      { nombre: "VIST", fuente: "yahoo", id: "VIST.BA", moneda: "ARS" },
-      { nombre: "YPFD", fuente: "yahoo", id: "YPFD.BA", moneda: "ARS" },
+      { nombre: "VIST", fuente: "yahoo", id: "VIST", moneda: "USD" },
+      { nombre: "YPF", fuente: "yahoo", id: "YPF", moneda: "USD" },
+      { nombre: "NVDA", fuente: "yahoo", id: "NVDA", moneda: "USD" },
     ],
   },
 };
