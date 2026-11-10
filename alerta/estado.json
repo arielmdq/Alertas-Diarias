@@ -9,12 +9,6 @@
       },
       {
         "tipo": "viento",
-        "fecha": "2026-11-10",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "viento",
         "fecha": "2026-11-11",
         "desde": 5,
         "hasta": 19
@@ -28,8 +22,8 @@
       {
         "tipo": "verde",
         "fecha": "2026-11-14",
-        "desde": 5,
-        "hasta": 7
+        "desde": 14,
+        "hasta": 16
       }
     ]
   },
@@ -37,12 +31,12 @@
     "BTC": {
       "fecha": "2026-11-10",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "ETH": {
       "fecha": "2026-11-10",
       "subio": 0,
-      "bajo": 0
+      "bajo": 2
     },
     "SPY": {
       "fecha": "2026-11-06",
@@ -58,9 +52,21 @@
       "fecha": "2026-11-06",
       "subio": 0,
       "bajo": 0
+    },
+    "VIST": {
+      "fecha": "2026-11-10",
+      "subio": 0,
+      "bajo": 1
+    },
+    "YPF": {
+      "fecha": "2026-11-10",
+      "subio": 0,
+      "bajo": 1
+    },
+    "NVDA": {
+      "fecha": "2026-11-10",
+      "subio": 0,
+      "bajo": 3
     }
-  },
-  "erroresAvisados": {
-    "VIST": "2026-11-10"
   }
 }
