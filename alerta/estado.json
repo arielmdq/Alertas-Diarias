@@ -10,14 +10,14 @@
       {
         "tipo": "verde",
         "fecha": "2026-11-16",
-        "desde": 5,
-        "hasta": 7
+        "desde": 8,
+        "hasta": 10
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-16",
-        "desde": 11,
-        "hasta": 13
+        "desde": 14,
+        "hasta": 16
       }
     ]
   },
@@ -25,7 +25,7 @@
     "BTC": {
       "fecha": "2026-11-12",
       "subio": 0,
-      "bajo": 1
+      "bajo": 2
     },
     "ETH": {
       "fecha": "2026-11-12",
