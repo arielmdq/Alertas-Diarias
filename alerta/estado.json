@@ -1,25 +1,6 @@
 {
   "olas": {
-    "items": [
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-15",
-        "desde": 5,
-        "hasta": 10
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-16",
-        "desde": 8,
-        "hasta": 10
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-16",
-        "desde": 14,
-        "hasta": 16
-      }
-    ]
+    "items": []
   },
   "precios": {
     "BTC": {
@@ -48,19 +29,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-12",
+      "fecha": "2026-11-11",
       "subio": 0,
       "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-12",
+      "fecha": "2026-11-11",
       "subio": 0,
       "bajo": 0
     },
     "NVDA": {
-      "fecha": "2026-11-12",
-      "subio": 0,
-      "bajo": 2
+      "fecha": "2026-11-11",
+      "subio": 1,
+      "bajo": 0
     }
   }
 }
