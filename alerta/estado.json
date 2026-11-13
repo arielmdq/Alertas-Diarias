@@ -1,15 +1,22 @@
 {
   "olas": {
-    "items": []
+    "items": [
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-17",
+        "desde": 8,
+        "hasta": 13
+      }
+    ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-12",
+      "fecha": "2026-11-13",
       "subio": 0,
       "bajo": 2
     },
     "ETH": {
-      "fecha": "2026-11-12",
+      "fecha": "2026-11-13",
       "subio": 0,
       "bajo": 1
     },
@@ -29,19 +36,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-11",
+      "fecha": "2026-11-12",
       "subio": 0,
       "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-11",
+      "fecha": "2026-11-12",
       "subio": 0,
       "bajo": 0
     },
     "NVDA": {
-      "fecha": "2026-11-11",
-      "subio": 1,
-      "bajo": 0
+      "fecha": "2026-11-12",
+      "subio": 0,
+      "bajo": 2
     }
   }
 }
