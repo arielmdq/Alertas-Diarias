@@ -4,26 +4,32 @@
       {
         "tipo": "verde",
         "fecha": "2026-11-14",
-        "desde": 5,
-        "hasta": 7
+        "desde": 13,
+        "hasta": 19
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-16",
-        "desde": 5,
-        "hasta": 7
+        "desde": 8,
+        "hasta": 10
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-17",
         "desde": 8,
-        "hasta": 16
+        "hasta": 19
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-18",
-        "desde": 17,
-        "hasta": 19
+        "desde": 5,
+        "hasta": 7
+      },
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-18",
+        "desde": 11,
+        "hasta": 13
       }
     ]
   },
@@ -36,7 +42,7 @@
     "ETH": {
       "fecha": "2026-11-14",
       "subio": 0,
-      "bajo": 1
+      "bajo": 2
     },
     "SPY": {
       "fecha": "2026-11-13",
