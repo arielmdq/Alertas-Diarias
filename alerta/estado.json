@@ -3,33 +3,15 @@
     "items": [
       {
         "tipo": "verde",
-        "fecha": "2026-11-14",
-        "desde": 13,
-        "hasta": 19
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-16",
-        "desde": 8,
-        "hasta": 10
-      },
-      {
-        "tipo": "verde",
         "fecha": "2026-11-17",
-        "desde": 8,
+        "desde": 5,
         "hasta": 19
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-18",
         "desde": 5,
-        "hasta": 7
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-18",
-        "desde": 11,
-        "hasta": 13
+        "hasta": 19
       }
     ]
   },
@@ -37,7 +19,7 @@
     "BTC": {
       "fecha": "2026-11-14",
       "subio": 0,
-      "bajo": 1
+      "bajo": 2
     },
     "ETH": {
       "fecha": "2026-11-14",
