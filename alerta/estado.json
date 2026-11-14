@@ -1,6 +1,13 @@
 {
   "olas": {
-    "items": []
+    "items": [
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-14",
+        "desde": 5,
+        "hasta": 7
+      }
+    ]
   },
   "precios": {
     "BTC": {
