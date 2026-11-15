@@ -12,19 +12,25 @@
         "fecha": "2026-11-18",
         "desde": 5,
         "hasta": 19
+      },
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-19",
+        "desde": 5,
+        "hasta": 16
       }
     ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-14",
+      "fecha": "2026-11-15",
       "subio": 0,
-      "bajo": 3
+      "bajo": 0
     },
     "ETH": {
-      "fecha": "2026-11-14",
+      "fecha": "2026-11-15",
       "subio": 0,
-      "bajo": 4
+      "bajo": 0
     },
     "SPY": {
       "fecha": "2026-11-13",
