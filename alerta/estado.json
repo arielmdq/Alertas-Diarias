@@ -24,17 +24,29 @@
         "fecha": "2026-11-20",
         "desde": 14,
         "hasta": 16
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-21",
+        "desde": 5,
+        "hasta": 10
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-21",
+        "desde": 17,
+        "hasta": 19
       }
     ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-16",
+      "fecha": "2026-11-17",
       "subio": 0,
       "bajo": 0
     },
     "ETH": {
-      "fecha": "2026-11-16",
+      "fecha": "2026-11-17",
       "subio": 0,
       "bajo": 0
     },
