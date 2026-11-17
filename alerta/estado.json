@@ -9,12 +9,6 @@
       },
       {
         "tipo": "verde",
-        "fecha": "2026-11-17",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "verde",
         "fecha": "2026-11-18",
         "desde": 5,
         "hasta": 19
@@ -28,8 +22,8 @@
       {
         "tipo": "verde",
         "fecha": "2026-11-20",
-        "desde": 17,
-        "hasta": 19
+        "desde": 14,
+        "hasta": 16
       }
     ]
   },
