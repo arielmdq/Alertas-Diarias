@@ -17,7 +17,7 @@
         "tipo": "verde",
         "fecha": "2026-11-21",
         "desde": 5,
-        "hasta": 6
+        "hasta": 8
       },
       {
         "tipo": "viento",
@@ -54,19 +54,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-17",
+      "fecha": "2026-11-16",
       "subio": 0,
-      "bajo": 0
+      "bajo": 2
     },
     "YPF": {
-      "fecha": "2026-11-17",
-      "subio": 1,
-      "bajo": 0
+      "fecha": "2026-11-16",
+      "subio": 0,
+      "bajo": 2
     },
     "NVDA": {
-      "fecha": "2026-11-17",
+      "fecha": "2026-11-16",
       "subio": 0,
-      "bajo": 0
+      "bajo": 2
     }
   }
 }
