@@ -3,27 +3,15 @@
     "items": [
       {
         "tipo": "verde",
-        "fecha": "2026-11-18",
-        "desde": 5,
-        "hasta": 19
+        "fecha": "2026-11-19",
+        "desde": 8,
+        "hasta": 10
       },
       {
         "tipo": "verde",
         "fecha": "2026-11-20",
         "desde": 5,
         "hasta": 19
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-20",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-21",
-        "desde": 5,
-        "hasta": 8
       },
       {
         "tipo": "viento",
@@ -35,12 +23,6 @@
         "tipo": "viento",
         "fecha": "2026-11-22",
         "desde": 5,
-        "hasta": 7
-      },
-      {
-        "tipo": "viento",
-        "fecha": "2026-11-22",
-        "desde": 11,
         "hasta": 19
       }
     ]
@@ -49,12 +31,12 @@
     "BTC": {
       "fecha": "2026-11-18",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "ETH": {
       "fecha": "2026-11-18",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "SPY": {
       "fecha": "2026-11-18",
@@ -64,7 +46,7 @@
     "GLD": {
       "fecha": "2026-11-18",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "YPFD": {
       "fecha": "2026-11-06",
