@@ -3,15 +3,15 @@
     "items": [
       {
         "tipo": "verde",
-        "fecha": "2026-11-19",
-        "desde": 5,
-        "hasta": 10
-      },
-      {
-        "tipo": "verde",
         "fecha": "2026-11-20",
         "desde": 5,
         "hasta": 19
+      },
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-21",
+        "desde": 5,
+        "hasta": 8
       },
       {
         "tipo": "viento",
@@ -21,8 +21,8 @@
       },
       {
         "tipo": "viento",
-        "fecha": "2026-11-21",
-        "desde": 17,
+        "fecha": "2026-11-22",
+        "desde": 5,
         "hasta": 19
       },
       {
@@ -51,14 +51,14 @@
       "bajo": 0
     },
     "SPY": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
       "bajo": 0
     },
     "GLD": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
-      "bajo": 1
+      "bajo": 0
     },
     "YPFD": {
       "fecha": "2026-11-06",
@@ -66,19 +66,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
-      "bajo": 1
+      "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
       "bajo": 1
     },
     "NVDA": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
-      "bajo": 1
+      "bajo": 0
     }
   }
 }
