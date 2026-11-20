@@ -36,19 +36,31 @@
         "fecha": "2026-11-23",
         "desde": 5,
         "hasta": 16
+      },
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-24",
+        "desde": 15,
+        "hasta": 16
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-24",
+        "desde": 5,
+        "hasta": 16
       }
     ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-19",
+      "fecha": "2026-11-20",
       "subio": 0,
       "bajo": 0
     },
     "ETH": {
-      "fecha": "2026-11-19",
+      "fecha": "2026-11-20",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "SPY": {
       "fecha": "2026-11-19",
@@ -71,12 +83,12 @@
       "bajo": 1
     },
     "YPF": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
-      "bajo": 1
+      "bajo": 2
     },
     "NVDA": {
-      "fecha": "2026-11-18",
+      "fecha": "2026-11-19",
       "subio": 0,
       "bajo": 1
     }
