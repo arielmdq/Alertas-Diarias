@@ -67,12 +67,12 @@
     "YPF": {
       "fecha": "2026-11-20",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "NVDA": {
       "fecha": "2026-11-20",
       "subio": 0,
-      "bajo": 3
+      "bajo": 6
     }
   }
 }
