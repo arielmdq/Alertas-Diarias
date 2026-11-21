@@ -4,8 +4,8 @@
       {
         "tipo": "viento",
         "fecha": "2026-11-21",
-        "desde": 5,
-        "hasta": 16
+        "desde": 18,
+        "hasta": 19
       },
       {
         "tipo": "viento",
@@ -48,12 +48,12 @@
   "precios": {
     "BTC": {
       "fecha": "2026-11-21",
-      "subio": 0,
+      "subio": 1,
       "bajo": 4
     },
     "ETH": {
       "fecha": "2026-11-21",
-      "subio": 1,
+      "subio": 2,
       "bajo": 5
     },
     "SPY": {
