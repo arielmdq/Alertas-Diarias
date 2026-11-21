@@ -27,6 +27,12 @@
       },
       {
         "tipo": "viento",
+        "fecha": "2026-11-23",
+        "desde": 5,
+        "hasta": 16
+      },
+      {
+        "tipo": "viento",
         "fecha": "2026-11-24",
         "desde": 5,
         "hasta": 16
@@ -60,19 +66,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-20",
-      "subio": 0,
-      "bajo": 0
-    },
-    "YPF": {
-      "fecha": "2026-11-20",
+      "fecha": "2026-11-19",
       "subio": 0,
       "bajo": 1
     },
-    "NVDA": {
-      "fecha": "2026-11-20",
+    "YPF": {
+      "fecha": "2026-11-19",
       "subio": 0,
-      "bajo": 7
+      "bajo": 2
+    },
+    "NVDA": {
+      "fecha": "2026-11-19",
+      "subio": 0,
+      "bajo": 1
     }
   }
 }
