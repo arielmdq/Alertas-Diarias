@@ -2,12 +2,6 @@
   "olas": {
     "items": [
       {
-        "tipo": "verde",
-        "fecha": "2026-11-21",
-        "desde": 5,
-        "hasta": 10
-      },
-      {
         "tipo": "viento",
         "fecha": "2026-11-21",
         "desde": 5,
@@ -27,12 +21,6 @@
       },
       {
         "tipo": "viento",
-        "fecha": "2026-11-23",
-        "desde": 5,
-        "hasta": 16
-      },
-      {
-        "tipo": "viento",
         "fecha": "2026-11-24",
         "desde": 5,
         "hasta": 16
@@ -42,6 +30,18 @@
         "fecha": "2026-11-25",
         "desde": 5,
         "hasta": 19
+      },
+      {
+        "tipo": "verde",
+        "fecha": "2026-11-25",
+        "desde": 5,
+        "hasta": 19
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-11-25",
+        "desde": 5,
+        "hasta": 16
       }
     ]
   },
@@ -53,7 +53,7 @@
     },
     "ETH": {
       "fecha": "2026-11-21",
-      "subio": 0,
+      "subio": 1,
       "bajo": 5
     },
     "SPY": {
