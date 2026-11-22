@@ -24,18 +24,6 @@
         "fecha": "2026-11-25",
         "desde": 5,
         "hasta": 19
-      },
-      {
-        "tipo": "verde",
-        "fecha": "2026-11-25",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "viento",
-        "fecha": "2026-11-25",
-        "desde": 5,
-        "hasta": 16
       }
     ]
   },
