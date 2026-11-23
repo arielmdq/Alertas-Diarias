@@ -3,12 +3,6 @@
     "items": [
       {
         "tipo": "viento",
-        "fecha": "2026-11-23",
-        "desde": 5,
-        "hasta": 16
-      },
-      {
-        "tipo": "viento",
         "fecha": "2026-11-24",
         "desde": 5,
         "hasta": 16
@@ -29,13 +23,13 @@
         "tipo": "verde",
         "fecha": "2026-11-27",
         "desde": 5,
-        "hasta": 8
+        "hasta": 12
       },
       {
         "tipo": "viento",
         "fecha": "2026-11-27",
         "desde": 5,
-        "hasta": 13
+        "hasta": 19
       }
     ]
   },
@@ -66,19 +60,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-20",
-      "subio": 0,
+      "fecha": "2026-11-23",
+      "subio": 1,
       "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-20",
-      "subio": 0,
-      "bajo": 1
+      "fecha": "2026-11-23",
+      "subio": 1,
+      "bajo": 0
     },
     "NVDA": {
-      "fecha": "2026-11-20",
-      "subio": 0,
-      "bajo": 7
+      "fecha": "2026-11-23",
+      "subio": 15,
+      "bajo": 0
     }
   }
 }
