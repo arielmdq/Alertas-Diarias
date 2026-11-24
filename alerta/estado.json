@@ -2,12 +2,6 @@
   "olas": {
     "items": [
       {
-        "tipo": "viento",
-        "fecha": "2026-11-24",
-        "desde": 5,
-        "hasta": 16
-      },
-      {
         "tipo": "verde",
         "fecha": "2026-11-25",
         "desde": 5,
@@ -35,7 +29,7 @@
         "tipo": "viento",
         "fecha": "2026-11-28",
         "desde": 5,
-        "hasta": 10
+        "hasta": 13
       }
     ]
   },
@@ -43,20 +37,20 @@
     "BTC": {
       "fecha": "2026-11-24",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "ETH": {
       "fecha": "2026-11-24",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "SPY": {
-      "fecha": "2026-11-20",
-      "subio": 0,
+      "fecha": "2026-11-24",
+      "subio": 1,
       "bajo": 0
     },
     "GLD": {
-      "fecha": "2026-11-20",
+      "fecha": "2026-11-24",
       "subio": 0,
       "bajo": 0
     },
@@ -66,19 +60,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-23",
-      "subio": 1,
+      "fecha": "2026-11-24",
+      "subio": 0,
       "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-23",
-      "subio": 1,
-      "bajo": 0
+      "fecha": "2026-11-24",
+      "subio": 0,
+      "bajo": 1
     },
     "NVDA": {
-      "fecha": "2026-11-23",
-      "subio": 15,
-      "bajo": 0
+      "fecha": "2026-11-24",
+      "subio": 0,
+      "bajo": 3
     }
   }
 }
