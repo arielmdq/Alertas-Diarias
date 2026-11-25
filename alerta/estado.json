@@ -43,12 +43,12 @@
     "BTC": {
       "fecha": "2026-11-25",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "ETH": {
       "fecha": "2026-11-25",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "SPY": {
       "fecha": "2026-11-24",
