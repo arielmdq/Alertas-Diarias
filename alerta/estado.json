@@ -3,12 +3,6 @@
     "items": [
       {
         "tipo": "verde",
-        "fecha": "2026-11-25",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "verde",
         "fecha": "2026-11-26",
         "desde": 5,
         "hasta": 19
@@ -51,12 +45,12 @@
       "bajo": 1
     },
     "SPY": {
-      "fecha": "2026-11-24",
+      "fecha": "2026-11-25",
       "subio": 1,
       "bajo": 0
     },
     "GLD": {
-      "fecha": "2026-11-24",
+      "fecha": "2026-11-25",
       "subio": 0,
       "bajo": 0
     },
@@ -66,19 +60,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-24",
-      "subio": 0,
-      "bajo": 1
+      "fecha": "2026-11-25",
+      "subio": 1,
+      "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-24",
+      "fecha": "2026-11-25",
       "subio": 0,
-      "bajo": 2
+      "bajo": 0
     },
     "NVDA": {
-      "fecha": "2026-11-24",
+      "fecha": "2026-11-25",
       "subio": 0,
-      "bajo": 3
+      "bajo": 2
     }
   }
 }
