@@ -36,12 +36,12 @@
   "precios": {
     "BTC": {
       "fecha": "2026-11-25",
-      "subio": 0,
+      "subio": 1,
       "bajo": 1
     },
     "ETH": {
       "fecha": "2026-11-25",
-      "subio": 0,
+      "subio": 1,
       "bajo": 1
     },
     "SPY": {
