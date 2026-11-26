@@ -3,12 +3,6 @@
     "items": [
       {
         "tipo": "verde",
-        "fecha": "2026-11-26",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "verde",
         "fecha": "2026-11-27",
         "desde": 5,
         "hasta": 12
@@ -51,13 +45,13 @@
       "bajo": 0
     },
     "SPY": {
-      "fecha": "2026-11-25",
-      "subio": 2,
+      "fecha": "2026-11-26",
+      "subio": 0,
       "bajo": 0
     },
     "GLD": {
-      "fecha": "2026-11-25",
-      "subio": 0,
+      "fecha": "2026-11-26",
+      "subio": 1,
       "bajo": 0
     },
     "YPFD": {
