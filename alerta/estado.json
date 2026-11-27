@@ -2,12 +2,6 @@
   "olas": {
     "items": [
       {
-        "tipo": "verde",
-        "fecha": "2026-11-27",
-        "desde": 5,
-        "hasta": 12
-      },
-      {
         "tipo": "viento",
         "fecha": "2026-11-27",
         "desde": 5,
@@ -30,12 +24,6 @@
         "fecha": "2026-11-30",
         "desde": 5,
         "hasta": 13
-      },
-      {
-        "tipo": "viento",
-        "fecha": "2026-12-01",
-        "desde": 8,
-        "hasta": 10
       }
     ]
   },
@@ -51,13 +39,13 @@
       "bajo": 0
     },
     "SPY": {
-      "fecha": "2026-11-26",
+      "fecha": "2026-11-27",
       "subio": 0,
       "bajo": 0
     },
     "GLD": {
-      "fecha": "2026-11-26",
-      "subio": 1,
+      "fecha": "2026-11-27",
+      "subio": 0,
       "bajo": 0
     },
     "YPFD": {
@@ -66,19 +54,19 @@
       "bajo": 0
     },
     "VIST": {
-      "fecha": "2026-11-25",
+      "fecha": "2026-11-27",
       "subio": 1,
       "bajo": 0
     },
     "YPF": {
-      "fecha": "2026-11-25",
+      "fecha": "2026-11-27",
       "subio": 0,
       "bajo": 0
     },
     "NVDA": {
-      "fecha": "2026-11-25",
+      "fecha": "2026-11-27",
       "subio": 0,
-      "bajo": 2
+      "bajo": 0
     }
   }
 }
