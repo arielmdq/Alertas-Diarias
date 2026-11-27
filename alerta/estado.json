@@ -30,18 +30,24 @@
         "fecha": "2026-11-30",
         "desde": 5,
         "hasta": 13
+      },
+      {
+        "tipo": "viento",
+        "fecha": "2026-12-01",
+        "desde": 8,
+        "hasta": 10
       }
     ]
   },
   "precios": {
     "BTC": {
-      "fecha": "2026-11-26",
-      "subio": 1,
+      "fecha": "2026-11-27",
+      "subio": 0,
       "bajo": 0
     },
     "ETH": {
-      "fecha": "2026-11-26",
-      "subio": 1,
+      "fecha": "2026-11-27",
+      "subio": 0,
       "bajo": 0
     },
     "SPY": {
