@@ -3,12 +3,6 @@
     "items": [
       {
         "tipo": "viento",
-        "fecha": "2026-11-27",
-        "desde": 5,
-        "hasta": 19
-      },
-      {
-        "tipo": "viento",
         "fecha": "2026-11-28",
         "desde": 5,
         "hasta": 13
@@ -36,7 +30,7 @@
     "ETH": {
       "fecha": "2026-11-27",
       "subio": 0,
-      "bajo": 0
+      "bajo": 1
     },
     "SPY": {
       "fecha": "2026-11-27",
